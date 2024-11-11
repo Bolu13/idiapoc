@@ -37,7 +37,7 @@ jobs:
       # Step 6: Publish the iOS app
       - name: Publish iOS app
         run: |
-          dotnet publish idiapoc.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
+          dotnet publish idiapoc/idiapoc.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
 
       # Step 7: Upload the IPA file
       - name: Upload IPA Artifact
