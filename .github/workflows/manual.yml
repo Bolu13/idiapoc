@@ -17,7 +17,7 @@ jobs:
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0'  # Replace with the version you're using
+          dotnet-version: '8.0.402'  # Replace with the version you're using
 
       # Step 3: Install .NET MAUI Workloads
       - name: Install .NET MAUI Workloads
@@ -37,11 +37,11 @@ jobs:
       # Step 6: Publish the iOS app
       - name: Publish iOS app
         run: |
-          dotnet publish YourAppName.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
+          dotnet publish idiapoc.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
 
       # Step 7: Upload the IPA file
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: YourApp.ipa
+          name: idiapoc.ipa
           path: ./output/*.ipa
