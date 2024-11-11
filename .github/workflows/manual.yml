@@ -9,22 +9,34 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up Ruby (for CocoaPods)
-        uses: ruby/setup-ruby@v1
+
+      # Step 2: Set up .NET SDK
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
         with:
-          ruby-version: '3.1'
-      - name: Install CocoaPods dependencies
+          dotnet-version: '8.0'  # Replace with the version you're using
+
+      # Step 3: Restore dependencies
+      - name: Restore .NET dependencies
         run: |
-          gem install cocoapods
-          pod install
-      - name: Build IPA
+          dotnet restore
+
+      # Step 4: Build the project
+      - name: Build the project
         run: |
-          xcodebuild -workspace YourApp.xcworkspace -scheme YourAppScheme -sdk iphoneos -configuration Release archive -archivePath $PWD/build/YourApp.xcarchive
-          xcodebuild -exportArchive -archivePath $PWD/build/YourApp.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath $PWD/build
+          dotnet build --configuration Release
+
+      # Step 5: Publish the iOS app
+      - name: Publish iOS app
+        run: |
+          dotnet publish idiapoc.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
+
+      # Step 6: Upload the IPA file
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v3
         with:
           name: YourApp.ipa
-          path: build/YourApp.ipa
+          path: ./output/*.ipa
