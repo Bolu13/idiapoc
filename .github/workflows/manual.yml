@@ -19,22 +19,27 @@ jobs:
         with:
           dotnet-version: '8.0'  # Replace with the version you're using
 
-      # Step 3: Restore dependencies
+      # Step 3: Install .NET MAUI Workloads
+      - name: Install .NET MAUI Workloads
+        run: |
+          dotnet workload restore
+
+      # Step 4: Restore .NET dependencies
       - name: Restore .NET dependencies
         run: |
           dotnet restore
 
-      # Step 4: Build the project
+      # Step 5: Build the project
       - name: Build the project
         run: |
           dotnet build --configuration Release
 
-      # Step 5: Publish the iOS app
+      # Step 6: Publish the iOS app
       - name: Publish iOS app
         run: |
-          dotnet publish idiapoc.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
+          dotnet publish YourAppName.csproj -c Release -r ios -p:Platform=iPhone -p:BuildIpa=true -o ./output
 
-      # Step 6: Upload the IPA file
+      # Step 7: Upload the IPA file
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v3
         with:
